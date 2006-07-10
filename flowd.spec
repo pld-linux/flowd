@@ -1,38 +1,32 @@
 #
 # Conditional build:
-%bcond_with	tests		# build with tests
 %bcond_without	tests		# build without tests
 #
+%include	/usr/lib/rpm/macros.perl
 Summary:	The flowd NetFlow collector daemon
+Summary(pl):	flowd - demon zbierania danych NetFlow
 Name:		flowd
 Version:	0.9
 Release:	1
 License:	BSD
 Group:		Applications/Networking
-URL:		http://www.mindrot.org/flowd.html
 Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
 # Source0-md5:	442917bb3c66a81786e9ab1d40006122
+URL:		http://www.mindrot.org/flowd.html
 BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	rpm-perlprov >= 4.1-13
+BuildRequires:	rpmbuild(macros) >= 1.268
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
+Requires(post,preun):	/sbin/chkconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires:	rc-scripts
+Provides:	group(_flowd)
+Provides:	user(_flowd)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%package perl
-Summary:	Perl API to access flowd logfiles
-Group:		Applications/Networking
-Requires:	perl
-
-%package python
-Summary:	Python API to access flowd logfiles
-Group:		Applications/Networking
-Requires:	python
-
-%package tools
-Summary:	Collection of example flowd tools
-Group:		Applications/Networking
-
-%package devel
-Summary:	C API to access flowd logfiles
-Group:		Applications/Networking
 
 %description
 This is flowd, a NetFlow collector daemon intended to be small, fast
@@ -42,19 +36,63 @@ It features some basic filtering to limit or tag the flows that are
 recorded and is privilege separated, to limit security exposure from
 bugs in flowd itself.
 
+%description -l pl
+Ten pakiet zawiera program flowd - demona zbieraj±cego dane NetFlow,
+maj±cego byæ ma³ym, szybkim i bezpiecznym.
+
+Obs³uguje podstawowe filtrowanie w celu ograniczania lub znakowania
+zapisywanych przep³ywów, ma rozdzielenie uprawnieñ w celu ograniczenia
+wp³ywu w³asnych b³edów na bezpieczeñstwo.
+
+%package perl
+Summary:	Perl API to access flowd logfiles
+Summary(pl):	Perlowe API do dostêpu do plików logów flowd
+Group:		Development/Languages/Perl
+
 %description perl
 This is a Perl API to the binary flowd network flow log format and an
-example reader application
+example reader application.
+
+%description perl -l pl
+Ten pakiet zawiera API Perla dla binarnego formatu plików logów
+przep³ywów sieciowych flowd oraz przyk³adowy program czytaj±cy.
+
+%package python
+Summary:	Python API to access flowd logfiles
+Summary(pl):	Pythonowe API do dostêpu do plików logów flowd
+Group:		Applications/Networking
+Requires:	python
 
 %description python
 This is a Python API to the binary flowd network flow log format and
-an example reader application
+an example reader application.
+
+%description python -l pl
+Ten pakiet zawiera API Pythona dla binarnego formatu plików logów
+przep³ywów sieciowych flowd oraz przyk³adowy program czytaj±cy.
+
+%package tools
+Summary:	Collection of example flowd tools
+Summary(pl):	Zbiór przyk³adowych narzêdzi dla flowd
+Group:		Applications/Networking
 
 %description tools
-A collection of tools for use with flowd
+A collection of tools for use with flowd.
+
+%description tools -l pl
+Zbiór narzêdzi do u¿ywania z flowd.
+
+%package devel
+Summary:	C API to access flowd logfiles
+Summary(pl):	API C do dostêpu do plików logów flowd
+Group:		Development/Libraries
 
 %description devel
 This is a C API to the binary flowd network flow log format.
+
+%description devel -l pl
+Ten pakiet zawiera API C dla binarnego formatu plików logów przep³ywów
+sieciowych flowd.
 
 %prep
 %setup -q
@@ -84,10 +122,8 @@ install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 install flowd.init $RPM_BUILD_ROOT/etc/rc.d/init.d/flowd
 
 # Perl module
-cd Flowd-perl; 
-%{__make} pure_install \
+%{__make} -C Flowd-perl pure_install \
 	DESTDIR=$RPM_BUILD_ROOT
-cd ..
 
 # Python module
 ./setup.py install --optimize 1 --root=$RPM_BUILD_ROOT 
@@ -96,41 +132,44 @@ cd ..
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-%{_sbindir}/groupadd -r _flowd 2>/dev/null || :
-%{_sbindir}/useradd -d /var/empty -s /bin/false -g _flowd -M -r _flowd \
-	2>/dev/null || :
+%groupadd -g XXX _flowd
+%useradd -u XXX -d /usr/share/empty -s /bin/false -c "flowd user" -g _flowd _flowd
 
 %post
 /sbin/chkconfig --add flowd
-
-%postun
-%service flowd condrestart > /dev/null 2>&1 || :
+%service flowd restart "flowd daemon"
 
 %preun
-if [ "$1" = 0 ]
-then
-	%service flowd stop > /dev/null 2>&1 || :
+if [ "$1" = "0" ]; then
+	%service flowd stop
 	/sbin/chkconfig --del flowd
+fi
+
+%postun
+if [ "$1" = "0" ]; then
+	%userremove _flowd
+	%groupremove _flowd
 fi
 
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog LICENSE README TODO
 #%%dir %%attr(111,root,root) %{_var}/empty
-%attr(600,root,root) %config(noreplace) %{_sysconfdir}/flowd.conf
-%attr(644,root,root) %{_mandir}/man5/flowd.conf.5*
-%attr(644,root,root) %{_mandir}/man8/flowd.8*
-%attr(644,root,root) %{_mandir}/man8/flowd-reader.8*
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/flowd.conf
+%attr(754,root,root) /etc/rc.d/init.d/flowd
 %attr(755,root,root) %{_bindir}/flowd-reader
-%attr(755,root,root) %config /etc/rc.d/init.d/flowd
 %attr(755,root,root) %{_sbindir}/flowd
+%{_mandir}/man5/flowd.conf.5*
+%{_mandir}/man8/flowd.8*
+%{_mandir}/man8/flowd-reader.8*
 
 %files perl 
 %defattr(644,root,root,755)
 #%%doc reader.pl
 %{perl_vendorarch}/Flowd.pm
+%dir %{perl_vendorarch}/auto/Flowd
 %{perl_vendorarch}/auto/Flowd/Flowd.bs
-%{perl_vendorarch}/auto/Flowd/Flowd.so
+%attr(755,root,root) %{perl_vendorarch}/auto/Flowd/Flowd.so
 %{_mandir}/man3/*
 
 %files python 
@@ -143,6 +182,5 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%dir %attr(755,root,root) %{_includedir}/flowd
-%attr(644,root,root) %{_includedir}/flowd/*
-%attr(644,root,root) %{_libdir}/libflowd.a
+%{_includedir}/flowd
+%{_libdir}/libflowd.a
