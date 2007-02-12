@@ -4,7 +4,7 @@
 #
 %include	/usr/lib/rpm/macros.perl
 Summary:	The flowd NetFlow collector daemon
-Summary(pl.UTF-8):   flowd - demon zbierania danych NetFlow
+Summary(pl.UTF-8):	flowd - demon zbierania danych NetFlow
 Name:		flowd
 Version:	0.9
 Release:	1
@@ -46,7 +46,7 @@ wpływu własnych błedów na bezpieczeństwo.
 
 %package perl
 Summary:	Perl API to access flowd logfiles
-Summary(pl.UTF-8):   Perlowe API do dostępu do plików logów flowd
+Summary(pl.UTF-8):	Perlowe API do dostępu do plików logów flowd
 Group:		Development/Languages/Perl
 
 %description perl
@@ -59,7 +59,7 @@ przepływów sieciowych flowd oraz przykładowy program czytający.
 
 %package python
 Summary:	Python API to access flowd logfiles
-Summary(pl.UTF-8):   Pythonowe API do dostępu do plików logów flowd
+Summary(pl.UTF-8):	Pythonowe API do dostępu do plików logów flowd
 Group:		Applications/Networking
 Requires:	python
 
@@ -73,7 +73,7 @@ przepływów sieciowych flowd oraz przykładowy program czytający.
 
 %package tools
 Summary:	Collection of example flowd tools
-Summary(pl.UTF-8):   Zbiór przykładowych narzędzi dla flowd
+Summary(pl.UTF-8):	Zbiór przykładowych narzędzi dla flowd
 Group:		Applications/Networking
 
 %description tools
@@ -84,7 +84,7 @@ Zbiór narzędzi do używania z flowd.
 
 %package devel
 Summary:	C API to access flowd logfiles
-Summary(pl.UTF-8):   API C do dostępu do plików logów flowd
+Summary(pl.UTF-8):	API C do dostępu do plików logów flowd
 Group:		Development/Libraries
 
 %description devel
