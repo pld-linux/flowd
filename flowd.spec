@@ -4,7 +4,7 @@
 #
 %include	/usr/lib/rpm/macros.perl
 Summary:	The flowd NetFlow collector daemon
-Summary(pl):	flowd - demon zbierania danych NetFlow
+Summary(pl.UTF-8):   flowd - demon zbierania danych NetFlow
 Name:		flowd
 Version:	0.9
 Release:	1
@@ -36,30 +36,30 @@ It features some basic filtering to limit or tag the flows that are
 recorded and is privilege separated, to limit security exposure from
 bugs in flowd itself.
 
-%description -l pl
-Ten pakiet zawiera program flowd - demona zbieraj±cego dane NetFlow,
-maj±cego byæ ma³ym, szybkim i bezpiecznym.
+%description -l pl.UTF-8
+Ten pakiet zawiera program flowd - demona zbierajÄ…cego dane NetFlow,
+majÄ…cego byÄ‡ maÅ‚ym, szybkim i bezpiecznym.
 
-Obs³uguje podstawowe filtrowanie w celu ograniczania lub znakowania
-zapisywanych przep³ywów, ma rozdzielenie uprawnieñ w celu ograniczenia
-wp³ywu w³asnych b³edów na bezpieczeñstwo.
+ObsÅ‚uguje podstawowe filtrowanie w celu ograniczania lub znakowania
+zapisywanych przepÅ‚ywÃ³w, ma rozdzielenie uprawnieÅ„ w celu ograniczenia
+wpÅ‚ywu wÅ‚asnych bÅ‚edÃ³w na bezpieczeÅ„stwo.
 
 %package perl
 Summary:	Perl API to access flowd logfiles
-Summary(pl):	Perlowe API do dostêpu do plików logów flowd
+Summary(pl.UTF-8):   Perlowe API do dostÄ™pu do plikÃ³w logÃ³w flowd
 Group:		Development/Languages/Perl
 
 %description perl
 This is a Perl API to the binary flowd network flow log format and an
 example reader application.
 
-%description perl -l pl
-Ten pakiet zawiera API Perla dla binarnego formatu plików logów
-przep³ywów sieciowych flowd oraz przyk³adowy program czytaj±cy.
+%description perl -l pl.UTF-8
+Ten pakiet zawiera API Perla dla binarnego formatu plikÃ³w logÃ³w
+przepÅ‚ywÃ³w sieciowych flowd oraz przykÅ‚adowy program czytajÄ…cy.
 
 %package python
 Summary:	Python API to access flowd logfiles
-Summary(pl):	Pythonowe API do dostêpu do plików logów flowd
+Summary(pl.UTF-8):   Pythonowe API do dostÄ™pu do plikÃ³w logÃ³w flowd
 Group:		Applications/Networking
 Requires:	python
 
@@ -67,31 +67,31 @@ Requires:	python
 This is a Python API to the binary flowd network flow log format and
 an example reader application.
 
-%description python -l pl
-Ten pakiet zawiera API Pythona dla binarnego formatu plików logów
-przep³ywów sieciowych flowd oraz przyk³adowy program czytaj±cy.
+%description python -l pl.UTF-8
+Ten pakiet zawiera API Pythona dla binarnego formatu plikÃ³w logÃ³w
+przepÅ‚ywÃ³w sieciowych flowd oraz przykÅ‚adowy program czytajÄ…cy.
 
 %package tools
 Summary:	Collection of example flowd tools
-Summary(pl):	Zbiór przyk³adowych narzêdzi dla flowd
+Summary(pl.UTF-8):   ZbiÃ³r przykÅ‚adowych narzÄ™dzi dla flowd
 Group:		Applications/Networking
 
 %description tools
 A collection of tools for use with flowd.
 
-%description tools -l pl
-Zbiór narzêdzi do u¿ywania z flowd.
+%description tools -l pl.UTF-8
+ZbiÃ³r narzÄ™dzi do uÅ¼ywania z flowd.
 
 %package devel
 Summary:	C API to access flowd logfiles
-Summary(pl):	API C do dostêpu do plików logów flowd
+Summary(pl.UTF-8):   API C do dostÄ™pu do plikÃ³w logÃ³w flowd
 Group:		Development/Libraries
 
 %description devel
 This is a C API to the binary flowd network flow log format.
 
-%description devel -l pl
-Ten pakiet zawiera API C dla binarnego formatu plików logów przep³ywów
+%description devel -l pl.UTF-8
+Ten pakiet zawiera API C dla binarnego formatu plikÃ³w logÃ³w przepÅ‚ywÃ³w
 sieciowych flowd.
 
 %prep
