@@ -13,6 +13,8 @@ Group:		Applications/Networking
 Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
 # Source0-md5:	442917bb3c66a81786e9ab1d40006122
 URL:		http://www.mindrot.org/flowd.html
+BuildRequires:	byacc
+BuildRequires:	python-devel
 BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRequires:	rpmbuild(macros) >= 1.268
