@@ -14,17 +14,17 @@ Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
 # Source0-md5:	442917bb3c66a81786e9ab1d40006122
 URL:		http://www.mindrot.org/flowd.html
 BuildRequires:	byacc
-BuildRequires:	python-devel
 BuildRequires:	perl-devel >= 1:5.8.0
+BuildRequires:	python-devel
 BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRequires:	rpmbuild(macros) >= 1.268
+Requires(post,preun):	/sbin/chkconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires(post,preun):	/sbin/chkconfig
-Requires(postun):	/usr/sbin/groupdel
-Requires(postun):	/usr/sbin/userdel
 Requires:	rc-scripts
 Provides:	group(flowd)
 Provides:	user(flowd)
@@ -105,10 +105,10 @@ sieciowych flowd.
 
 %{__make}
 
-cd Flowd-perl 
+cd Flowd-perl
 %{__perl} Makefile.PL \
 	INSTALLDIRS=vendor
-%{__make} 
+%{__make}
 %{?with_tests:%{__make} test}
 
 #python setup.py install --root=$RPM_BUILD_ROOT --optimize=2
@@ -128,7 +128,7 @@ install flowd.init $RPM_BUILD_ROOT/etc/rc.d/init.d/flowd
 	DESTDIR=$RPM_BUILD_ROOT
 
 # Python module
-./setup.py install --optimize 1 --root=$RPM_BUILD_ROOT 
+./setup.py install --optimize 1 --root=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -165,7 +165,7 @@ fi
 %{_mandir}/man8/flowd.8*
 %{_mandir}/man8/flowd-reader.8*
 
-%files perl 
+%files perl
 %defattr(644,root,root,755)
 #%%doc reader.pl
 %{perl_vendorarch}/Flowd.pm
@@ -174,7 +174,7 @@ fi
 %attr(755,root,root) %{perl_vendorarch}/auto/Flowd/Flowd.so
 %{_mandir}/man3/Flowd.3pm*
 
-%files python 
+%files python
 %defattr(644,root,root,755)
 %doc reader.py
 
