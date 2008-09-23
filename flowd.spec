@@ -7,7 +7,7 @@ Summary:	The flowd NetFlow collector daemon
 Summary(pl.UTF-8):	flowd - demon zbierania danych NetFlow
 Name:		flowd
 Version:	0.9
-Release:	2
+Release:	2.1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
@@ -26,8 +26,8 @@ Requires(post,preun):	/sbin/chkconfig
 Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
 Requires:	rc-scripts
-Provides:	group(_flowd)
-Provides:	user(_flowd)
+Provides:	group(flowd)
+Provides:	user(flowd)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -134,8 +134,8 @@ install flowd.init $RPM_BUILD_ROOT/etc/rc.d/init.d/flowd
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-%groupadd -g XXX _flowd
-%useradd -u XXX -d /usr/share/empty -s /bin/false -c "flowd user" -g _flowd _flowd
+%groupadd -g 198 flowd
+%useradd -u 198 -d /usr/share/empty -s /bin/false -c "flowd user" -g flowd flowd
 
 %post
 /sbin/chkconfig --add flowd
@@ -149,8 +149,8 @@ fi
 
 %postun
 if [ "$1" = "0" ]; then
-	%userremove _flowd
-	%groupremove _flowd
+	%userremove flowd
+	%groupremove flowd
 fi
 
 %files
@@ -172,7 +172,7 @@ fi
 %dir %{perl_vendorarch}/auto/Flowd
 %{perl_vendorarch}/auto/Flowd/Flowd.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Flowd/Flowd.so
-%{_mandir}/man3/*
+%{_mandir}/man3/Flowd.3pm*
 
 %files python 
 %defattr(644,root,root,755)
