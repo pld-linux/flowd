@@ -7,7 +7,7 @@ Summary:	The flowd NetFlow collector daemon
 Summary(pl.UTF-8):	flowd - demon zbierania danych NetFlow
 Name:		flowd
 Version:	0.9.1
-Release:	0.1
+Release:	1
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
@@ -47,30 +47,31 @@ Obsługuje podstawowe filtrowanie w celu ograniczania lub znakowania
 zapisywanych przepływów, ma rozdzielenie uprawnień w celu ograniczenia
 wpływu własnych błedów na bezpieczeństwo.
 
-%package perl
+%package -n perl-Flowd
 Summary:	Perl API to access flowd logfiles
 Summary(pl.UTF-8):	Perlowe API do dostępu do plików logów flowd
 Group:		Development/Languages/Perl
+Obsoletes:	flowd-perl
 
-%description perl
+%description -n perl-Flowd
 This is a Perl API to the binary flowd network flow log format and an
 example reader application.
 
-%description perl -l pl.UTF-8
+%description -n perl-Flowd -l pl.UTF-8
 Ten pakiet zawiera API Perla dla binarnego formatu plików logów
 przepływów sieciowych flowd oraz przykładowy program czytający.
 
-%package python
+%package -n python-flowd
 Summary:	Python API to access flowd logfiles
 Summary(pl.UTF-8):	Pythonowe API do dostępu do plików logów flowd
 Group:		Applications/Networking
-Requires:	python
+Obsoletes:	python-flowd
 
-%description python
+%description -n python-flowd
 This is a Python API to the binary flowd network flow log format and
 an example reader application.
 
-%description python -l pl.UTF-8
+%description -n python-flowd -l pl.UTF-8
 Ten pakiet zawiera API Pythona dla binarnego formatu plików logów
 przepływów sieciowych flowd oraz przykładowy program czytający.
 
@@ -99,22 +100,20 @@ sieciowych flowd.
 
 %prep
 %setup -q
-
 %patch0 -p1
 
 %build
 %configure
-#	--enable-gcc-warnings \
-
 %{__make}
+
+CFLAGS="%{rpmcflags}" \
+%{__python} setup.py build
 
 cd Flowd-perl
 %{__perl} Makefile.PL \
 	INSTALLDIRS=vendor
 %{__make}
 %{?with_tests:%{__make} test}
-
-#python setup.py install --root=$RPM_BUILD_ROOT --optimize=2
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -124,14 +123,18 @@ rm -rf $RPM_BUILD_ROOT
 
 # Misc stuff
 install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
-install flowd.init $RPM_BUILD_ROOT/etc/rc.d/init.d/flowd
+install -p flowd.init $RPM_BUILD_ROOT/etc/rc.d/init.d/flowd
 
 # Perl module
 %{__make} -C Flowd-perl pure_install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Flowd/.packlist
+
 # Python module
-./setup.py install --optimize 1 --root=$RPM_BUILD_ROOT
+%{__python} setup.py install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -159,7 +162,6 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog LICENSE README TODO
-#%%dir %%attr(111,root,root) %{_var}/empty
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/flowd.conf
 %attr(754,root,root) /etc/rc.d/init.d/flowd
 %attr(755,root,root) %{_bindir}/flowd-reader
@@ -168,18 +170,22 @@ fi
 %{_mandir}/man8/flowd.8*
 %{_mandir}/man8/flowd-reader.8*
 
-%files perl
+%files -n perl-Flowd
 %defattr(644,root,root,755)
-#%%doc reader.pl
+%doc reader.pl
 %{perl_vendorarch}/Flowd.pm
 %dir %{perl_vendorarch}/auto/Flowd
 %{perl_vendorarch}/auto/Flowd/Flowd.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Flowd/Flowd.so
 %{_mandir}/man3/Flowd.3pm*
 
-%files python
+%files -n python-flowd
 %defattr(644,root,root,755)
 %doc reader.py
+%attr(755,root,root) %{py_sitedir}/flowd.so
+%if "%{py_ver}" > "2.4"
+%{py_sitedir}/flowd-*.egg-info
+%endif
 
 %files tools
 %defattr(644,root,root,755)
