@@ -7,7 +7,7 @@ Summary:	The flowd NetFlow collector daemon
 Summary(pl.UTF-8):	flowd - demon zbierania danych NetFlow
 Name:		flowd
 Version:	0.9.1
-Release:	2
+Release:	3
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
@@ -65,7 +65,7 @@ przepływów sieciowych flowd oraz przykładowy program czytający.
 Summary:	Python API to access flowd logfiles
 Summary(pl.UTF-8):	Pythonowe API do dostępu do plików logów flowd
 Group:		Applications/Networking
-Obsoletes:	python-flowd
+Obsoletes:	flowd-python
 
 %description -n python-flowd
 This is a Python API to the binary flowd network flow log format and
