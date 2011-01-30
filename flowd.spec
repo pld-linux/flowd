@@ -17,7 +17,9 @@ URL:		http://www.mindrot.org/flowd.html
 BuildRequires:	byacc
 BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	python-devel
+BuildRequires:	python-modules
 BuildRequires:	rpm-perlprov >= 4.1-13
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires(postun):	/usr/sbin/groupdel
