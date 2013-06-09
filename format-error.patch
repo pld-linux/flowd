@@ -1,0 +1,11 @@
+--- flowd-0.9.1/Flowd-perl/Flowd.xs~	2005-08-21 13:17:02.000000000 +0200
++++ flowd-0.9.1/Flowd-perl/Flowd.xs	2013-06-09 20:10:09.721811208 +0200
+@@ -70,7 +70,7 @@
+ 		buf = (char *)SvPV(ST(0), len);
+ 		r = store_flow_deserialise(buf, len, &flow, ebuf, sizeof(ebuf));
+ 		if (r != STORE_ERR_OK)
+-			croak(ebuf);
++			croak("%s", ebuf);
+ 
+ 		fields = ntohl(flow.hdr.fields);
+ 		

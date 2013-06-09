@@ -13,6 +13,7 @@ Group:		Applications/Networking
 Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
 # Source0-md5:	a3d0512b5e6d9c7d9e749d9894376ea4
 Patch0:		%{name}-username.patch
+Patch1:		format-error.patch
 URL:		http://www.mindrot.org/flowd.html
 BuildRequires:	byacc
 BuildRequires:	perl-devel >= 1:5.8.0
@@ -103,6 +104,7 @@ sieciowych flowd.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure
