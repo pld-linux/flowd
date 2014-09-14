@@ -179,7 +179,6 @@ fi
 %doc reader.pl
 %{perl_vendorarch}/Flowd.pm
 %dir %{perl_vendorarch}/auto/Flowd
-%{perl_vendorarch}/auto/Flowd/Flowd.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Flowd/Flowd.so
 %{_mandir}/man3/Flowd.3pm*
 
