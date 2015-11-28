@@ -110,8 +110,7 @@ sieciowych flowd.
 %configure
 %{__make}
 
-CFLAGS="%{rpmcflags}" \
-%{__python} setup.py build
+%py_build
 
 cd Flowd-perl
 %{__perl} Makefile.PL \
@@ -136,9 +135,7 @@ install -p flowd.init $RPM_BUILD_ROOT/etc/rc.d/init.d/flowd
 rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/Flowd/.packlist
 
 # Python module
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
