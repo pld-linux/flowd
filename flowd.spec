@@ -7,7 +7,7 @@ Summary:	The flowd NetFlow collector daemon
 Summary(pl.UTF-8):	flowd - demon zbierania danych NetFlow
 Name:		flowd
 Version:	0.9.1
-Release:	10
+Release:	11
 License:	BSD
 Group:		Applications/Networking
 Source0:	http://www.mindrot.org/files/flowd/%{name}-%{version}.tar.gz
