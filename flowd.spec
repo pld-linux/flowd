@@ -2,7 +2,6 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 #
-%include	/usr/lib/rpm/macros.perl
 Summary:	The flowd NetFlow collector daemon
 Summary(pl.UTF-8):	flowd - demon zbierania danych NetFlow
 Name:		flowd
